@@ -2,8 +2,8 @@
 <img src="https://i.imgur.com/Clzj7Xs.png" alt="osTicket logo"/>
 </p>
 
-<h1>osTicket - Prerequisites and Installation</h1>
-This tutorial outlines the prerequisites and installation of the open-source help desk ticketing system osTicket.<br />
+<h1>osTicket - Post-Install Configuration</h1>
+This tutorial outlines the post-install configuration of the open-source help desk ticketing system osTicket.<br />
 
 <h2>Environments and Technologies Used</h2>
 
@@ -15,357 +15,213 @@ This tutorial outlines the prerequisites and installation of the open-source hel
 
 - Windows 10</b> (21H2)
 
-<h2>List of Prerequisites</h2>
+<h2>Post-Install Configuration Objectives</h2>
 
-- Azurre account with an active subscription.
-- Created a resource group.
-- Created a virtual network and subnet.
-- Created a virtual machine in Azure.
-- Connected to the vitual machine using remote desktop (RDP)
-
-<h2>Installation Steps</h2
-                        
- Step 1: Create Resource Group.
- 
-
- 
-Purpose: This is your logical container for Azure resources like VM, networks, etc.
+- Secure and Customize Agent & User Access
+- Define Ticket Visibility and Permissions
+- Configure SLAs (Service Level Agreements)
+- Set Up Help Topics
+- Finalize System Behavior
 
 
-
-Action:
-
-- Go to Azure Portal → Resource Groups → Click "Create".
-
-- Name it: osticket
-
-- Choose your region
-
-![image](https://github.com/user-attachments/assets/a5e7a9ad-4326-4019-8e6f-d9673f335a4a)
-
-![image](https://github.com/user-attachments/assets/94b9e6ff-290a-4041-bdeb-e0dea8f7ff0c)
+<h2>Configuration Steps</h2>
 
 <p>
-</p>
-
+STEP 1: Access the Admin and Agent Panels
   
-Step 2: Create Virtual Machine
+- Admin Login URL:
+http://localhost/osTicket/scp/login.php
 
+- User Ticket Portal URL:
+http://localhost/osTicket  
 
-Purpose: Deploy Windows 10 VM to run osTicket and its stack
+<img width="400" height="339" alt="59" src="https://github.com/user-attachments/assets/211646c8-7011-4074-b174-6c71910bb8ee" />
 
-Action:
 
-- Go to Virtual Machines → "Create"
+<img width="400" height="231" alt="60" src="https://github.com/user-attachments/assets/92a8d655-aef4-4389-b3e7-2504685fe004" /><
 
-- Name: osticket-vm
-
-- OS: Windows 10 Pro
-
-- Size: 2 vCPUs
-
-- Username: labuser, Password: osTicketPassword1!
-
-- Network:  default VNet and created (automatically)
-  
-![image](https://github.com/user-attachments/assets/501d4b0a-a741-4b18-9078-8d84530cb569)
-
-![image](https://github.com/user-attachments/assets/dc1cf193-f93f-47b3-9203-07610240ffcd)
-
-![image](https://github.com/user-attachments/assets/c666ba3c-ba6a-44e6-91b1-be10e43b389a)
-
-![image](https://github.com/user-attachments/assets/4c386da7-3a71-4f2f-951a-3ee675fcd7bb)
-
-![7](https://github.com/user-attachments/assets/ff539305-4c0f-42df-8c4e-8c204ce9bbb0)
-<p>
-<p>
-
-
-<p>
-<p>
-  
-Step 3: Connect to the Virtual Machine
-  
-Purpose: Log in via RDP to do the installations
-
-Action:
-
-- After the VM is running → Click “Connect” → RDP
-
-- Download RDP file and open it
-
-- Login with: labuser / osTicketPassword1!
-- 
-![image](https://github.com/user-attachments/assets/c3603ff1-c8a5-42e1-a5f2-d5ac66fa9f03)
-
-![image](https://github.com/user-attachments/assets/7039000f-70e8-486e-b3ea-08d3ded6e068)
-
-![image](https://github.com/user-attachments/assets/03e91c56-0c9f-480c-8783-2c581763b8a0)
-
-![image](https://github.com/user-attachments/assets/f37ba0ff-fafa-4a3c-a3c0-fff209b88094)
-</p>
-</p>
-
-
-Step 4: Prepare the VM Desktop
-  
-Purpose: Clean up & set up environment before installation
-
-Action:
-
-- Open Edge or Chrome and download [osTicket-Installation-Files.zip](https://drive.google.com/uc?export=download&id=1b3RBkXTLNGXbibeMuAynkfzdBC1NnqaD)
-
-- Extract to Desktop → Folder name: osTicket-Installation-Files
-- 
-![image](https://github.com/user-attachments/assets/68634608-f48a-4d37-9747-99c4c4afcf6e)
-
-![image](https://github.com/user-attachments/assets/7d75c221-89b0-4c83-8592-7eb49784f34b)
-
-![14](https://github.com/user-attachments/assets/e3b27d38-88d6-4256-9eda-e5dba48e1bc3)
-
-
-Step 5: Install IIS with CGI Enabled
-
-Go to Start menu → Control Panel → Programs → Turn Windows features on or off
-
-Enable:
-
-- Internet Information Services
-
-- World Wide Web Services → Application Development Features → [✓] CGI
-
-- Wait for the installation to complete.
-
-![15](https://github.com/user-attachments/assets/979cc81c-0c31-40c0-8787-3919437d14fe)
-
-![image](https://github.com/user-attachments/assets/7c33e757-0b7f-4a30-a746-463ea3e6b835)
-
-![image](https://github.com/user-attachments/assets/09e1987e-e506-4a4b-b4d2-4dfc40eff358)
-
-![image](https://github.com/user-attachments/assets/2988ec9e-f910-489d-a21e-9bd8f5bcfa76)
-
-![image](https://github.com/user-attachments/assets/a8abb10e-dfce-4908-9738-83162ba9daee)
-
-![image](https://github.com/user-attachments/assets/5eb41581-27e0-436e-b776-a67db3380aba)
-
-![image](https://github.com/user-attachments/assets/4d951e6b-ff44-4f8c-8a11-25989771e385)
-
-
-Step 6 : Install IIS Extensions
-
-- From osTicket-Installation-Files folder:
-
-- Install PHP Manager for IIS: PHPManagerForIIS_V1.5.0.msi
-
-- Install IIS Rewrite Module: rewrite_amd64_en-US.msi
-
-
-![14](https://github.com/user-attachments/assets/e3b27d38-88d6-4256-9eda-e5dba48e1bc3)
-
-![image](https://github.com/user-attachments/assets/23a6b6d2-27ba-4118-9eb2-f6a77ca028f9)
-
-![image](https://github.com/user-attachments/assets/9ba28a46-c4a5-4b3b-b006-ba23896e595b)
-
-![image](https://github.com/user-attachments/assets/372403a9-dd8d-4729-a30a-08a35d0ad4fa)
-
-![image](https://github.com/user-attachments/assets/81d46187-a7df-456e-aff1-227210d1a24c)
-
-![image](https://github.com/user-attachments/assets/8e92092f-b96c-4b06-a54a-38ed1fe6b37e)
-
-![image](https://github.com/user-attachments/assets/3623c91b-3dad-404c-9d4b-8185f1129499)
-
-![image](https://github.com/user-attachments/assets/9c091722-9c31-4168-9118-72a819f7c1bd)
-
-![image](https://github.com/user-attachments/assets/68c13ba7-c2dd-4b2d-862a-37accfa01ef2)
-
-![image](https://github.com/user-attachments/assets/f643020f-096d-4eb6-bd81-97bcb0a3d5b3)
-
-![image](https://github.com/user-attachments/assets/4551617b-f3a5-4be0-8f03-bd218b66d61c)
-
-![image](https://github.com/user-attachments/assets/3df50747-dcbb-4648-93ba-4a8e64b4780a)
-
-
-Step 7: Set Up PHP Runtime
-
-- Create folder: C:\PHP
-
-- Unzip php-7.3.8-nts-Win32-VC15-x86.zip into C:\PHP
-
-- Install VC_redist.x86.exe (Visual C++ Runtime)
-
-![image](https://github.com/user-attachments/assets/7e64f96b-6465-4a76-a73f-d41805106f5a)
-
-Step 8: Install MySQL Server
-
-- Run mysql-5.5.62-win32.msi
-
-- Choose: Typical Setup
-
-- After install, launch MySQL Configuration Wizard
-
-- Choose Standard Configuration
-
-Set username: root, password: root
-
-![image](https://github.com/user-attachments/assets/6ebbafe9-3ab4-4d87-80fd-1f716df90b94)
-
-![image](https://github.com/user-attachments/assets/27c6ee78-de9f-4141-a0b1-89eafb36a00b)
-
-![image](https://github.com/user-attachments/assets/d5dbd62c-9ed7-44fa-9106-0d03905209ae)
-
-![image](https://github.com/user-attachments/assets/2d2c14ac-e354-4ca4-9f36-4efecebe021b)
-
-![34](https://github.com/user-attachments/assets/6238ba50-829d-469b-ad5e-15cb54e32dcf)
-
-![image](https://github.com/user-attachments/assets/ececa8e6-9500-4481-8d01-21c2ac9b99eb)
-
-![36](https://github.com/user-attachments/assets/c63b9b9a-6016-4d89-9b79-e116e3660771)
-
-
-Step 9: Register PHP with IIS
-
-- Open IIS as Administrator
-
-- Click your computer name  → PHP Manager
-
-- Register new PHP → Path: C:\PHP\php-cgi.exe
-
-- Restart IIS (Stop/Start from within IIS Manager)
-
-![image](https://github.com/user-attachments/assets/51e677ed-1375-44d5-889b-8a176ec5ec33)
-
-![image](https://github.com/user-attachments/assets/6c231706-eb78-405b-8d8a-d169de4f83c7)
-
-![image](https://github.com/user-attachments/assets/3e9947f9-075a-47c4-8f5a-98d47b6264a4)
-
-![image](https://github.com/user-attachments/assets/033924e6-7a4f-437b-aacb-61a69e6ae3da)
-
-![image](https://github.com/user-attachments/assets/84beebcc-da65-44a9-bc04-7438ffcd8640)
-
-![Screenshot 2025-07-09 171808](https://github.com/user-attachments/assets/47aeacc0-1791-494e-a18a-ab158f90c011)
-
-![image](https://github.com/user-attachments/assets/737aa44b-6673-4ad0-80ff-3b7f648b693d)
-
-
-Step 10: Unzip & Move osTicket Files
-
-- From osTicket-Installation-Files folder:
-
-- Unzip osTicket-v1.15.8.zip
-
-- Copy the upload folder into C:\inetpub\wwwroot
-
-- Rename upload to osTicket
-
-![image](https://github.com/user-attachments/assets/d40b0a96-119c-44a5-90ee-c8d4b3147ab5)
-
-![image](https://github.com/user-attachments/assets/4c0ce0fa-dd1f-457c-aaff-8334467a25b7)
-
-![45](https://github.com/user-attachments/assets/83470ebc-bf9e-4a64-9924-0def1f9b1142)
-
-Step 11: Browse to osTicket
-
-- In IIS: Sites → Default Website → osTicket
-
-- Click "Browse *:80"
-
-- Open osTicket setup page in browser (http://localhost/osTicket)
-
-![image](https://github.com/user-attachments/assets/0739c580-57c2-402e-a3f7-387c918b4aa0)
-
-![image](https://github.com/user-attachments/assets/2f3caaa9-1fbd-4eeb-a9eb-97e71720ed25)
-
-
-Step 12: Enable PHP Extensions
-
-- In PHP Manager → "Enable or disable an extension"
-
-Enable:
-
-- php_imap.dll
-
-- php_intl.dll
-
-- php_opcache.dll
-
-Refresh osTicket installer page to verify they are now enabled
-
-![image](https://github.com/user-attachments/assets/12431e86-476f-438c-8144-85f8c204c910)
-
-![image](https://github.com/user-attachments/assets/2a3bf03a-798d-455b-ad0c-001f279707e6)
-
-![50](https://github.com/user-attachments/assets/e1c80705-88f8-4e99-bc21-3bc0ab52205f)
-
-
-Step 13: Rename & Secure Config File 
-
-Navigate to:
-
-- Windows (C):\inetpub\wwwroot\osTicket\include
-
-Rename:
-- ost-sampleconfig.php → ost-config.php
-
-- Right-click → Properties → Security:
-
-- Disable inheritance
-
-- Remove all users
-
-- Add Everyone with Full Control
-
-![image](https://github.com/user-attachments/assets/19769158-1c7a-4d44-9f0f-517d94f5de08)
-
-![52](https://github.com/user-attachments/assets/14ce3db6-8ccf-46fb-82db-e4fc1debb82f)
-
-
-Step 14: Fill Out Web Installer
-
-- Return to browser → osTicket web setup
-
-Fill in:
-
-- Helpdesk Name
-
-- Admin Email
-
-- Admin Username/Password
-
-![53](https://github.com/user-attachments/assets/10a15aaf-33e3-4e75-9dc4-148e5ffb922e)
-
-
-Step 17: Complete osTicket Installation
-
-- In the browser installer:
-
-Enter:
-
-- MySQL Database: osTicket
-
-- MySQL Username: root
-
-- Password: root
-
-- Click "Install Now"
-
-- After success → You’ll be redirected to:
-
-- Admin login: http://localhost/osTicket/scp/login.php
-
-- End-user portal: http://localhost/osTicket/
-
-
-![image](https://github.com/user-attachments/assets/13710267-6fdf-47bb-9d4e-e48d4b5566ac)
-
-![image](https://github.com/user-attachments/assets/1357e48a-1837-4e8f-9b17-cf25e3fb7a10)
-
-![image](https://github.com/user-attachments/assets/aeb0f393-29bc-4fca-97af-62e0897c6acf)
-
-![image](https://github.com/user-attachments/assets/f1ffcf22-a6f3-46ef-8e7b-346c29b02b60)
-
-![image](https://github.com/user-attachments/assets/9470c238-085b-40fb-8283-2fe34c81d014)
-
-![58](https://github.com/user-attachments/assets/742afb05-4db7-447c-b2b1-c6011189c07d)
 
 </p>
+<p>
+ STEP 2: Agent Panel vs Admin Panel
+  
+  - Admin Panel = Full control of osTicket
+  - Agent Panel = Used by support agents to manage tickets
+  
+
+ <img width="400" height="482" alt="61" src="https://github.com/user-attachments/assets/5d54ced1-61fe-4bab-878d-300b5d270a32" /><
+
+ <img width="400" height="168" alt="62" src="https://github.com/user-attachments/assets/5160fa5f-10c2-4103-97f2-4472d3fa53f5" /><
+
+
+</p>
+<p>
+  
+STEP 3: Configure Roles
+Admin Panel → Agents → Roles
+ - Click Add New Role
+ - Name it Supreme Admin
+
+<img width="420" height="73" alt="image" src="https://github.com/user-attachments/assets/378f8e1e-b891-4387-ae40-2cfad70022c5" /><
+
+<img width="562" height="132" alt="image" src="https://github.com/user-attachments/assets/b7ecc17d-7115-4934-b68c-acd47d9a90ee" /><
+
+<img width="460" height="109" alt="image" src="https://github.com/user-attachments/assets/22319dd4-8f79-4f2f-bd35-225a20b3e310" /><
+
+<img width="322" height="165" alt="image" src="https://github.com/user-attachments/assets/b52f72e0-0b39-4d63-a32e-fc70b3b609a4" /><
+
+<img width="430" height="344" alt="image" src="https://github.com/user-attachments/assets/c7f41a0c-b43f-4577-bdb8-14b021834650" /><
+
+<img width="350" height="211" alt="image" src="https://github.com/user-attachments/assets/556815ac-872f-4038-8691-870c263eba66" /><
+
+<img width="420" height="107" alt="image" src="https://github.com/user-attachments/assets/8ea6f715-b51d-485e-b5e1-a81d8df0986b" /><
+
+
+STEP 4: Create Departments
+Admin Panel → Agents → Departments
+Add:
+- SysAdmins
+- Support
+
+  <img width="420" height="73" alt="image" src="https://github.com/user-attachments/assets/07a3d1c3-956f-46bd-a34a-038811944c71" /><
+
+<img width="450" height="123" alt="image" src="https://github.com/user-attachments/assets/6dfe9971-c096-44c6-b8b2-d0180f6da19c" /><
+
+<img width="470" height="130" alt="image" src="https://github.com/user-attachments/assets/74f71c46-50b3-4d61-9d41-00d24f99df34" /><
+
+<img width="417" height="163" alt="image" src="https://github.com/user-attachments/assets/ef026d21-7d83-482d-9ab4-f6c0f1853e14" /><
+
+<img width="257" height="72" alt="image" src="https://github.com/user-attachments/assets/1b8f1c30-3d76-425a-94df-01938aac3001" /><
+
+<img width="737" height="213" alt="image" src="https://github.com/user-attachments/assets/13c6159b-e55f-490b-aab1-af681a9a8b9c" /><
+
+
+STEP 5: Create Teams
+
+- Admin Panel → Agents → Teams
+ Add:
+- Online Banking (pull agents from different departments)
+
+<img width="420" height="73" alt="image" src="https://github.com/user-attachments/assets/378f8e1e-b891-4387-ae40-2cfad70022c5" /><
+
+<img width="460" height="379" alt="image" src="https://github.com/user-attachments/assets/c440471d-086d-4c44-8317-244fb1688066" /><
+
+<img width="470" height="369" alt="image" src="https://github.com/user-attachments/assets/c6283d56-6536-4641-af31-07b8430520ad" /><
+
+<img width="442" height="298" alt="image" src="https://github.com/user-attachments/assets/4948c556-1422-429f-9af9-974cb06fcb19" /><
+
+<img width="298" height="48" alt="image" src="https://github.com/user-attachments/assets/5f72aa27-38e3-4fd6-bd08-cd47709984e8" /><
+
+<img width="394" height="324" alt="Screenshot 2025-07-17 155159" src="https://github.com/user-attachments/assets/76e9cb62-6f28-44f6-b5de-a4d2d2499d15" />-
+
+
+
+ STEP 6: Allow Anyone to Create Tickets
+- Admin Panel → Settings → User Settings
+- UNcheck: “Require registration and login to create tickets”
+  
+<img width="420" height="73" alt="image" src="https://github.com/user-attachments/assets/378f8e1e-b891-4387-ae40-2cfad70022c5" /><
+
+<img width="430" height="366" alt="image" src="https://github.com/user-attachments/assets/1518d90c-955d-44b8-9c96-bc8a5b6aff07" />
+
+
+STEP 7: Add Agents (Support Staff)
+
+Admin Panel → Agents → Add New
+
+ Add:
+- Jane (Dept: SysAdmins)
+- John (Dept: Support)
+Assign them roles like Supreme Admin
+
+<img width="420" height="73" alt="image" src="https://github.com/user-attachments/assets/378f8e1e-b891-4387-ae40-2cfad70022c5" /><
+
+<img width="460" height="124" alt="image" src="https://github.com/user-attachments/assets/31414990-fce3-4835-9daa-1ede20a38d71" /><
+
+<img width="460" height="231" alt="image" src="https://github.com/user-attachments/assets/5f5abacb-cd7c-4002-89c3-dddfa6ef3c0a" /><
+
+<img width="462" height="285" alt="image" src="https://github.com/user-attachments/assets/cdf3fd36-c737-448b-bdf4-83389170e032" /><
+
+<img width="460" height="301" alt="image" src="https://github.com/user-attachments/assets/339a1ea5-3cd8-45a4-9206-71c9603837d8" /><
+
+<img width="430" height="251" alt="image" src="https://github.com/user-attachments/assets/d76bdd1c-345d-4cfd-8a9b-1419bd4cd26b" /><
+
+<img width="430" height="240" alt="image" src="https://github.com/user-attachments/assets/a1ba1d7e-9dc2-44a6-b6ff-3371fdecb02f" /><
+
+
+
+<img width="460" height="457" alt="image" src="https://github.com/user-attachments/assets/d505dca6-0e0f-41bc-b285-730ebac86a03" /><
+
+<img width="596" height="169" alt="image" src="https://github.com/user-attachments/assets/9bf009b7-2d8c-483c-8f34-7101882813d1" /><
+
+<img width="360" height="132" alt="image" src="https://github.com/user-attachments/assets/a3a2931d-bad9-4d1f-8584-8495782f7a44" /><
+
+<img width="430" height="202" alt="83" src="https://github.com/user-attachments/assets/88f3c805-c44c-4f7d-8c3b-49e6b69ad28a" /><
+
+
+<img width="460" height="243" alt="image" src="https://github.com/user-attachments/assets/49f9becf-1e5d-4780-a23a-a5d8d14ffb18" /><
+
+<img width="430" height="375" alt="image" src="https://github.com/user-attachments/assets/3cd5b778-5f0a-4418-bf68-dc74aabc1302" /><
+
+<img width="434" height="271" alt="image" src="https://github.com/user-attachments/assets/359d5ebe-5076-41d5-a361-472b739ed1d3" /><
+
+<img width="460" height="202" alt="image" src="https://github.com/user-attachments/assets/4b99fd7e-19b8-4a6e-86eb-d408784ff2c2" /><
+
+
+STEP 8: Add Users (Customers)
+Agent Panel → Users → Add New
+ Add:
+- Karen
+- Ken
+
+<img width="313" height="78" alt="image" src="https://github.com/user-attachments/assets/064187b6-4f0f-4830-a883-55db6bb317dc" /><
+
+<img width="460" height="147" alt="image" src="https://github.com/user-attachments/assets/f8543938-42ba-46fd-8b77-2e72faf5a3f6" /><
+
+<img width="430" height="251" alt="image" src="https://github.com/user-attachments/assets/0044b1b7-8aa5-4e4e-a0fc-b984586331b1" /><
+
+
+ STEP 9: Configure SLA (Service Level Agreements)
+Admin Panel → Manage → SLA
+ Add:
+- Sev-A (1 hr, 24/7)
+- Sev-B (4 hrs, 24/7)
+- Sev-C (8 hrs, Business Hours)
+  
+<img width="420" height="73" alt="image" src="https://github.com/user-attachments/assets/378f8e1e-b891-4387-ae40-2cfad70022c5" /><
+
+<img width="460" height="67" alt="image" src="https://github.com/user-attachments/assets/07f90729-9c0a-4974-81f5-f703b67f4f45" /><
+
+<img width="430" height="338" alt="image" src="https://github.com/user-attachments/assets/e1f71c9c-3c32-4cab-95eb-7199f9e91a77" /><
+
+<img width="430" height="333" alt="image" src="https://github.com/user-attachments/assets/8400bc1b-c929-4a68-963e-0d1a95a04603" /><
+
+<img width="430" height="337" alt="image" src="https://github.com/user-attachments/assets/4a64a8bb-3380-4d44-b277-352209fa544c" /><
+
+
+ STEP 10: Create Help Topics
+Admin Panel → Manage → Help Topics
+ Add:
+- Business Critical Outage
+- Personal Computer Issues
+- Equipment Request
+- Password Reset
+- Other
+  
+ <img width="420" height="73" alt="image" src="https://github.com/user-attachments/assets/378f8e1e-b891-4387-ae40-2cfad70022c5" /><
+
+<img width="460" height="65" alt="image" src="https://github.com/user-attachments/assets/6ed10d62-4d2f-4634-b382-055c9d51b19e" /><
+
+<img width="430" height="327" alt="image" src="https://github.com/user-attachments/assets/23b8942d-d9b8-4c60-8095-e11e8eb0763d" /><
+
+<img width="430" height="313" alt="image" src="https://github.com/user-attachments/assets/ed951b11-5b1b-47d4-9293-31c69d7d6a4e" /><
+
+<img width="430" height="316" alt="image" src="https://github.com/user-attachments/assets/654633d7-572f-4c38-b8fa-a4b1e4c43f8c" /><
+
+<img width="430" height="307" alt="image" src="https://github.com/user-attachments/assets/aaae127d-d0e5-4f0c-891d-c33d8e0ae9d9" /><
+
+<img width="430" height="306" alt="image" src="https://github.com/user-attachments/assets/f4be6bc7-b2de-447a-8028-4e50b9505b74" /><
+
+<img width="430" height="250" alt="98" src="https://github.com/user-attachments/assets/2a03d736-ed87-4603-8565-97a955c729e2" /><
+
 <br />
